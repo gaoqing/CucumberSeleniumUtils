@@ -12,8 +12,8 @@ import cucumber.api.java.Before;
 
 public class ReporterHooks {
 
-	/*Have to use static here to keep the value being assigned 
-	when calling constructor for driver or calling setUp to get scenario instance
+	/*Have to use static here to keep the value being assigned to this field
+	when calling constructor for driver and automatically calling setUp to get scenario instance
 	*/
 	
 	static private Scenario scenario;
@@ -39,10 +39,10 @@ public class ReporterHooks {
 	@Before
 	public void setUp(Scenario scenarioParm) {
 		scenario = scenarioParm; 
-		System.out.println("This setUp hook will be called by Cukes automatically to init scenario instance");
+		System.out.println("This setUp hook has been called by Cukes automatically to init scenario instance");
 	}
 
-	/*Can Apply tab to feature file */
+	/*Can Apply tab to feature/scenario file */
 	@After("@Tag1, @Tag2") 
 	public void tearDown() {
 		if (scenario.isFailed()) {

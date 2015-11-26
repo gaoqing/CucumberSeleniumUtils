@@ -1,7 +1,5 @@
 package SeleniumUtils;
 
-import java.util.concurrent.ExecutionException;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -87,4 +85,17 @@ public class SeleniumCommon {
 		}
 		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
 	}
+	
+	//For example try to getText from element, if element not exist then still fine to take empty string
+	public static String tryCatchWraper(String element, String method){
+		String str=null;
+		try{
+			str=(String)element.getClass().getMethod(method).invoke(element);
+			return str;
+		}catch(Throwable t){
+			System.out.println("Element not exist or state is stale");
+			return "";
+		}
+	}	
+	
 }
