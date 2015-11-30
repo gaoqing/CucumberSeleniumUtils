@@ -113,7 +113,7 @@ public class SeleniumCommon {
 		Class clazz = classInstance.getClass();
 		Method methodToInvoke = null;
 		int length = paraValueList.length;
-		
+
 		Class<?>[] parameterType = new Class<?>[length];
 		try {
 			if (length > 0) {
@@ -131,32 +131,36 @@ public class SeleniumCommon {
 	}
 
 	public static Object tryCatchWrapper(Object classInstance, String method, Class[] paraType, Object[] paraValue) {
-		if(paraType.length!=paraType.length){
-			System.out.println("Each values provided have to provide its Class type as well");
-		}
+		// if(paraType.length!=paraType.length){
+		// System.out.println("Each values provided have to provide its Class
+		// type as well");
+		// }
 		Class clazz = classInstance.getClass();
 		Method methodToInvoke = null;
-		int length = paraValue.length;
-		Class<?>[] parameterType = new Class<?>[length];
 		try {
-			if (length > 0) {
-				methodToInvoke = clazz.getDeclaredMethod(method, paraType);
-			} else {
-				methodToInvoke = clazz.getDeclaredMethod(method);
-			}
+			methodToInvoke = clazz.getDeclaredMethod(method, paraType);
 			return methodToInvoke.invoke(classInstance, paraValue);
 		} catch (Throwable t) {
 			return "";
 		}
-		
+
 	}
-	
+
 	@Test
 	public void test4TryCatchWrapper() {
-		assertEquals(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"),"abcXYZ");
-		assertEquals(tryCatchWraper4NonPrimitive("abc", "toUpperCase"),"ABC");
-		assertEquals(tryCatchWrapper("abcdefghi", "substring", new Class[]{int.class,int.class}, new Object[]{1,3}),"bc");
-		assertEquals(tryCatchWrapper("abc", "toUpperCase", new Class[]{}, new Object[]{}),"ABC");
+		assertEquals(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"), "abcXYZ");
+		assertEquals(tryCatchWraper4NonPrimitive("abc", "toUpperCase"), "ABC");
+		assertEquals(tryCatchWrapper("abcde", "substring", new Class[] { int.class, int.class }, new Object[] { 1, 3 }),
+				"bc");
+		assertEquals(tryCatchWrapper("abc", "toUpperCase", new Class[] {}, new Object[] {}), "ABC");
+		assertEquals(tryCatchWrapper("abc", "toUpperCase", null, null), "ABC");
+
+		System.out.println(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"));
+		System.out.println(tryCatchWraper4NonPrimitive("abc", "toUpperCase"));
+		System.out.println(
+				tryCatchWrapper("abcdefghi", "substring", new Class[] { int.class, int.class }, new Object[] { 1, 3 }));
+		System.out.println(tryCatchWrapper("abc", "toUpperCase", new Class[] {}, new Object[] {}));
+		System.out.println(tryCatchWrapper("abc", "toUpperCase", null, null));
 
 	}
 
