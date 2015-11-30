@@ -1,5 +1,12 @@
 package SeleniumUtils;
 
+import static org.junit.Assert.*;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import org.junit.Test;
+import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -102,17 +109,55 @@ public class SeleniumCommon {
 		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
 	}
 
-	// For example try to getText from element, if element not exist then still
-	// fine to take empty string value
-	public static String tryCatchWraper4Method(WebElement elementObj, String method) {
-		String str = null;
+	public static Object tryCatchWraper4NonPrimitive(Object classInstance, String method, Object... paraValueList) {
+		Class clazz = classInstance.getClass();
+		Method methodToInvoke = null;
+		int length = paraValueList.length;
+		
+		Class<?>[] parameterType = new Class<?>[length];
 		try {
-			str = (String)elementObj.getClass().getMethod(method).invoke(elementObj);
-			return str;
+			if (length > 0) {
+				for (int i = 0; i < length; i++) {
+					parameterType[i] = paraValueList[i].getClass();
+				}
+				methodToInvoke = clazz.getDeclaredMethod(method, parameterType);
+			} else {
+				methodToInvoke = clazz.getDeclaredMethod(method);
+			}
+			return methodToInvoke.invoke(classInstance, paraValueList);
 		} catch (Throwable t) {
-			System.out.println("Element not exist or is stale");
 			return "";
 		}
+	}
+
+	public static Object tryCatchWrapper(Object classInstance, String method, Class[] paraType, Object[] paraValue) {
+		if(paraType.length!=paraType.length){
+			System.out.println("Each values provided have to provide its Class type as well");
+		}
+		Class clazz = classInstance.getClass();
+		Method methodToInvoke = null;
+		int length = paraValue.length;
+		Class<?>[] parameterType = new Class<?>[length];
+		try {
+			if (length > 0) {
+				methodToInvoke = clazz.getDeclaredMethod(method, paraType);
+			} else {
+				methodToInvoke = clazz.getDeclaredMethod(method);
+			}
+			return methodToInvoke.invoke(classInstance, paraValue);
+		} catch (Throwable t) {
+			return "";
+		}
+		
+	}
+	
+	@Test
+	public void test4TryCatchWrapper() {
+		assertEquals(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"),"abcXYZ");
+		assertEquals(tryCatchWraper4NonPrimitive("abc", "toUpperCase"),"ABC");
+		assertEquals(tryCatchWrapper("abcdefghi", "substring", new Class[]{int.class,int.class}, new Object[]{1,3}),"bc");
+		assertEquals(tryCatchWrapper("abc", "toUpperCase", new Class[]{}, new Object[]{}),"ABC");
+
 	}
 
 }
