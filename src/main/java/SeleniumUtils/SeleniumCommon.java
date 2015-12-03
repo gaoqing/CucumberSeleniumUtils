@@ -121,7 +121,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(specifyOne[0]);
+			targetElement = elements.get(specifyOne[0]-1);
 		}
 
 		for (int i = 0; i < 6; i++) {
@@ -155,7 +155,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(specifyOne[0]);
+			targetElement = elements.get(specifyOne[0]-1);
 		}
 
 		for (int i = 0; i < 6; i++) {
