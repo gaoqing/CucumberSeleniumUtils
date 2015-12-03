@@ -1,19 +1,12 @@
-package SeleniumUtils;
+package qa.SeleniumUtils;
 
-import static org.junit.Assert.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.regexp.recompile;
-import org.junit.Test;
-import org.junit.runners.JUnit4;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.steadystate.css.util.ThrowCssExceptionErrorHandler;
 
 public class SeleniumCommon {
 	public static void sleepInHalfSec(int halfSec) {
@@ -207,24 +200,6 @@ public class SeleniumCommon {
 		} catch (Throwable t) {
 			return "";
 		}
-
-	}
-
-	@Test
-	public void test4TryCatchWrapper() {
-		assertEquals(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"), "abcXYZ");
-		assertEquals(tryCatchWraper4NonPrimitive("abc", "toUpperCase"), "ABC");
-		assertEquals(tryCatchWrapper("abcde", "substring", new Class[] { int.class, int.class }, new Object[] { 1, 3 }),
-				"bc");
-		assertEquals(tryCatchWrapper("abc", "toUpperCase", new Class[] {}, new Object[] {}), "ABC");
-		assertEquals(tryCatchWrapper("abc", "toUpperCase", null, null), "ABC");
-
-		System.out.println(tryCatchWraper4NonPrimitive("abc", "concat", "XYZ"));
-		System.out.println(tryCatchWraper4NonPrimitive("abc", "toUpperCase"));
-		System.out.println(
-				tryCatchWrapper("abcdefghi", "substring", new Class[] { int.class, int.class }, new Object[] { 1, 3 }));
-		System.out.println(tryCatchWrapper("abc", "toUpperCase", new Class[] {}, new Object[] {}));
-		System.out.println(tryCatchWrapper("abc", "toUpperCase", null, null));
 
 	}
 
