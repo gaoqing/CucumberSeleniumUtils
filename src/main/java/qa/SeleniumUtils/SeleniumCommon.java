@@ -2,10 +2,14 @@ package qa.SeleniumUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Function;
 
 
 public class SeleniumCommon {
@@ -56,6 +60,7 @@ public class SeleniumCommon {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
 				webElement.clear();
 				webElement.sendKeys(textToSend);
+				return;
 			} catch (Throwable t) {
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
@@ -70,8 +75,7 @@ public class SeleniumCommon {
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
-				webElement.getText(); // Using getText method to test if element
-										// is stale or not
+				webElement.getText(); // Using getText method to test if element is stale or not
 				return webElement;
 			} catch (Throwable t) {
 				System.out.println("Failed in attemption No. " + i);
@@ -87,8 +91,7 @@ public class SeleniumCommon {
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(element));
-				webElement.getText(); // Using getText method to test if element
-										// is stale or not
+				webElement.getText(); // Using getText method to test if element is stale or not
 				return webElement;
 			} catch (Throwable t) {
 				System.out.println("Failed in attemption No. " + i);
@@ -110,7 +113,7 @@ public class SeleniumCommon {
 				}
 				if (j == size - 1) {
 					System.out.println("No element is the list is visible");
-					return "";
+					return null;
 				}
 			}
 		} else {
@@ -166,8 +169,18 @@ public class SeleniumCommon {
 		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
 	}
 
+	public static Function<WebDriver, Boolean> isPageLoaded(){
+		return new Function<WebDriver, Boolean>() {
+
+			public Boolean apply(WebDriver input) {
+				return ((JavascriptExecutor)input)
+						.executeScript("return document.readyState").equals("complete");
+			}
+		};
+	}
+	
 	public static Object tryCatchWraper4NonPrimitive(Object classInstance, String method, Object... paraValueList) {
-		Class clazz = classInstance.getClass();
+		Class<?> clazz = classInstance.getClass();
 		Method methodToInvoke = null;
 		int length = paraValueList.length;
 
@@ -187,12 +200,12 @@ public class SeleniumCommon {
 		}
 	}
 
-	public static Object tryCatchWrapper(Object classInstance, String method, Class[] paraType, Object[] paraValue) {
+	public static Object tryCatchWrapper(Object classInstance, String method, Class<?>[] paraType, Object[] paraValue) {
 		// if(paraType.length!=paraType.length){
 		// System.out.println("Each values provided have to provide its Class
 		// type as well");
 		// }
-		Class clazz = classInstance.getClass();
+		Class<?> clazz = classInstance.getClass();
 		Method methodToInvoke = null;
 		try {
 			methodToInvoke = clazz.getDeclaredMethod(method, paraType);
