@@ -2,13 +2,11 @@ package qa.SeleniumUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.google.common.base.Function;
 
 
@@ -17,44 +15,47 @@ public class SeleniumCommon {
 		try {
 			Thread.sleep(halfSec * 500);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	public static void waitUntilClickableThenClick(WebDriver driver, WebElement element) {
-		WebElement webElement;
+		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
-				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(element));
+				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
+				webElement.getText(); //Use getText method to test if such element is stale or not
 				webElement.click();
 				return;
 			} catch (Throwable t) {
+				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
 			}
 		}
-		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
+		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
 	public static String waitUntilVisibleThenGetText(WebDriver driver, WebElement element) {
-		WebElement webElement;
+		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
-				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
+				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(element));
 				String text = webElement.getText();
 				return text;
 			} catch (Throwable t) {
+				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
 			}
 		}
-		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
+		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
 	public static void waitUntilClickableThenSentKeys(WebDriver driver, WebElement element, String textToSend) {
-		WebElement webElement;
+		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
@@ -62,50 +63,53 @@ public class SeleniumCommon {
 				webElement.sendKeys(textToSend);
 				return;
 			} catch (Throwable t) {
+				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
 			}
 		}
-		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
+		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
 	public static WebElement waitUtilVisible(WebDriver driver, WebElement element) {
-		WebElement webElement;
+		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
-				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
-				webElement.getText(); // Using getText method to test if element is stale or not
+				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(element));
+				webElement.getText(); // Use getText method to test if such element is stale or not
 				return webElement;
 			} catch (Throwable t) {
+				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
 			}
 		}
-		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
+		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
 	public static WebElement waitUtilClickable(WebDriver driver, WebElement element) {
-		WebElement webElement;
+		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
-				webElement = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(element));
-				webElement.getText(); // Using getText method to test if element is stale or not
+				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
+				webElement.getText(); // Use getText method to test if such element is stale or not
 				return webElement;
 			} catch (Throwable t) {
+				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
 			}
 		}
-		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
+		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
-	public static String waitUntilOneInListVisibleThenGetText(WebDriver driver, List<WebElement> elements, int... specifyOne) {
+	public static String waitUntilOneInListVisibleThenGetText(WebDriver driver, List<WebElement> elements, int... targetIndex) {
 		WebElement targetElement = null;
 		int size = elements.size();
-		if (specifyOne.length == 0) {
+		if (targetIndex.length == 0) {
 			for (int j = 0; j < size; j++) {
 				if (elements.get(j).isDisplayed()) {
 					targetElement = elements.get(j);
@@ -117,7 +121,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(specifyOne[0]-1);
+			targetElement = elements.get(targetIndex[0]-1);  //Parameter index counting from 1
 		}
 
 		for (int i = 0; i < 6; i++) {
@@ -136,10 +140,10 @@ public class SeleniumCommon {
 	}
 
 	public static WebElement waitUntilOneInListVisibleThenSendKeys(WebDriver driver, List<WebElement> elements,
-			String keysToSend, int... specifyOne) {
+			String keysToSend, int... targetIndex) {
 		WebElement targetElement = null;
 		int size = elements.size();
-		if (specifyOne.length == 0) {
+		if (targetIndex.length == 0) {
 			for (int j = 0; j < size; j++) {
 				if (elements.get(j).isDisplayed()) {
 					targetElement = elements.get(j);
@@ -151,7 +155,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(specifyOne[0]-1);
+			targetElement = elements.get(targetIndex[0]-1);
 		}
 
 		for (int i = 0; i < 6; i++) {
@@ -169,6 +173,14 @@ public class SeleniumCommon {
 		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
 	}
 
+	
+	public boolean waitAfterPageLoad(WebDriver driver) {
+		new WebDriverWait(driver, 30).until(isPageLoaded());
+		return true;
+		
+	}
+	
+	
 	public static Function<WebDriver, Boolean> isPageLoaded(){
 		return new Function<WebDriver, Boolean>() {
 
@@ -183,8 +195,8 @@ public class SeleniumCommon {
 		Class<?> clazz = classInstance.getClass();
 		Method methodToInvoke = null;
 		int length = paraValueList.length;
-
 		Class<?>[] parameterType = new Class<?>[length];
+		
 		try {
 			if (length > 0) {
 				for (int i = 0; i < length; i++) {
