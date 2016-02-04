@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import qa.SeleniumUtils.DriverUtils;
 import qa.SeleniumUtils.SeleniumCommon;
 
 public class PageObject {
@@ -30,6 +31,11 @@ public class PageObject {
 		PageFactory.initElements(this.driver, this);
 	}
 
+	public PageObject(DriverUtils driverUtils) {
+		this.driver =driverUtils.getDriver();
+		PageFactory.initElements(this.driver, this);
+	}
+	
 	public PageObject getPageObj() {
 		if(pageObj == null){
 			pageObj = new PageObject(driver);
