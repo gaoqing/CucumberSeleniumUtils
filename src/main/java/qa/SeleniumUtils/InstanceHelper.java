@@ -11,7 +11,7 @@ public class InstanceHelper {
 	
 	public WebDriver getTheDriver() {
 		if(driver ==null){
-			driver = new Driver().getDriver();		
+			driver = new DriverUtils().getDriver();		
 		}
 		return driver;
 	}
