@@ -56,9 +56,6 @@ public class DriverUtils {
 			new Throwable("This driver have not been supported yet");
 		}
 		
-		// Pass the same driver instance for screen capture and tear down.
-		new ReporterHooks(driver); 
-		
 		return driver;
 	}
 

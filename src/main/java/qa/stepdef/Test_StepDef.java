@@ -16,7 +16,7 @@ public class Test_StepDef {
 	PageObject pageObj;
 	DriverUtils driveUtils;
 	
-	public Test_StepDef(PageObject pageObj, DriverUtils driveUtils) {
+	public Test_StepDef(DriverUtils driveUtils, PageObject pageObj) {
 		this.pageObj = pageObj;
 		this.driveUtils = driveUtils;
 		
