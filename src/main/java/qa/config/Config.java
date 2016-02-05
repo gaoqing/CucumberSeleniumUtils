@@ -15,6 +15,8 @@ public class Config {
     public static String runInVenue = "local";
 //    public static String runInVenue = "remote";
     
+    public static boolean shareBrowserSession = false;
+    
     public static String remoteSeleniumServerHub = "http://10.28.10.1/wd/hub";
     public static String remoteChromePathInNodeHost ="D:\\Google\\Chrome\\Application\\chrome.exe";
    

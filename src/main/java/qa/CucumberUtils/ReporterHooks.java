@@ -5,10 +5,12 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import bsh.commands.dir;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import qa.SeleniumUtils.DriverUtils;
+import qa.config.Config;
 
 public class ReporterHooks {
 
@@ -18,6 +20,8 @@ public class ReporterHooks {
 	
 	static private Scenario scenario;
 	static private WebDriver driver;
+	private static boolean dunit = false;
+	
     
 	/*DI Picocontainor will be responsible for automatically creating instance for 
      * step definition related java class and class annotated by cucumber hooks, 
@@ -42,17 +46,34 @@ public class ReporterHooks {
 	}
 
 	@Before
-	public void setUp(Scenario scenarioParm) {
-		scenario = scenarioParm; 
+	public void setUp(Scenario s) {
+		scenario = s; 
 		System.out.println("This setUp hook has been called by Cukes automatically to init scenario instance");
 	}
+	
+	@Before
+	public void allHooks(){
+		if(!dunit){
+			Runtime.getRuntime().addShutdownHook(new Thread(){
+				public void run() {
+					System.out.println("This is after all hook");
+					if(driver!=null) driver.quit();
+				}
+			});
+			System.out.println("This is before all");
+			dunit = true;
+		}
+	}
 
-	/*Can Apply tab to feature/scenario file */
-	@After("@Tag1, @Tag2") 
+	/*Can Apply tab to feature/scenario file, like After("@Tag1, @Tag2")  */
+	@After
 	public void tearDown() {
 		if (scenario.isFailed()) {
 			byte[] screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.embed(screen, "image/png");
+		}
+		if(!Config.shareBrowserSession){
+			driver.quit();
 		}
 	}
 

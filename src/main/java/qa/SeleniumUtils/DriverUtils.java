@@ -2,11 +2,9 @@ package qa.SeleniumUtils;
 
 import qa.CucumberUtils.ReporterHooks;
 import qa.config.*;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,9 +21,18 @@ import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class DriverUtils {
-	WebDriver driver;
+	private WebDriver driver;
+	private static WebDriver staticDriver;
+	
 	public WebDriver getDriver() {
-		
+		if(!Config.shareBrowserSession){
+			return getInstanceDriver();
+		}else {
+			return getStaticDriver();
+		}		
+	}
+	
+	public WebDriver getInstanceDriver() {
 		if (Config.runInVenue.equalsIgnoreCase("local")) {
 			switch (Config.runWithBrowser) {
 			case "firefox":
@@ -59,7 +66,42 @@ public class DriverUtils {
 		return driver;
 	}
 
+	public WebDriver getStaticDriver() {
+		if (Config.runInVenue.equalsIgnoreCase("local")) {
+			switch (Config.runWithBrowser) {
+			case "firefox":
+				if(staticDriver ==null) staticDriver = getLocalFirefoxDriver();
+				break;
+			case "ie":
+				if(staticDriver ==null) staticDriver = getLocalIEDriver();
+				break; 
+			case "chrome":
+			default:
+				if(staticDriver ==null) staticDriver = getLocalChromeDriver();
+				break;
+			}
+		} else if (Config.runInVenue.equalsIgnoreCase("remote")) {
+			switch (Config.runWithBrowser) {
+			case "firefox":
+				if(staticDriver ==null) staticDriver = getRemoteFirefoxDriver();
+				break;
+			case "ie":
+				if(staticDriver ==null) staticDriver = getRemoteIEDriver();
+				break; 
+			case "chrome":
+			default:
+				if(staticDriver ==null) staticDriver = getRemoteChromeDriver();
+				break;
+			}
+		} else {
+			new Throwable("This driver have not been supported yet");
+		}
+		
+		return staticDriver;
+	}
+	
 	public WebDriver getLocalChromeDriver() {
+		WebDriver driver = null;
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("--test-type");
 		option.setBinary(Config.localChromePath);
@@ -70,12 +112,13 @@ public class DriverUtils {
 				.build();
 		DesiredCapabilities cap = DesiredCapabilities.chrome();
 		cap.setCapability(ChromeOptions.CAPABILITY, option);
-		ChromeDriver driver = new ChromeDriver((ChromeDriverService) service, cap);
+		driver = new ChromeDriver((ChromeDriverService) service, cap);
 		return driver;
 
 	}
 
 	public WebDriver getLocalIEDriver() {
+		WebDriver driver = null;
 		DriverService service = new InternetExplorerDriverService.Builder()
 				.usingDriverExecutable(new File(Config.localIEDriverPath))
 				.usingAnyFreePort()
@@ -87,6 +130,7 @@ public class DriverUtils {
 	}
 	
 	public WebDriver getLocalFirefoxDriver() {
+		WebDriver driver = null;
 		FirefoxBinary firefoxBinary = new FirefoxBinary(new File(Config.localFirefoxPath));
 		FirefoxProfile firefoxProfile = new FirefoxProfile(new File("path to local profile"));
 
@@ -98,6 +142,7 @@ public class DriverUtils {
 	}
 	
 	public WebDriver getRemoteChromeDriver() {
+		WebDriver driver = null;
 		ChromeOptions option = new ChromeOptions();
 		option.setBinary(Config.remoteChromePathInNodeHost);
 
@@ -113,7 +158,7 @@ public class DriverUtils {
 	}
 	
 	public WebDriver getRemoteIEDriver() {
-
+		WebDriver driver = null;
 		DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "internet explorer");
 		try {
@@ -126,7 +171,7 @@ public class DriverUtils {
 	}
 	
 	public WebDriver getRemoteFirefoxDriver() {
-
+		WebDriver driver = null;
 		DesiredCapabilities cap = DesiredCapabilities.firefox();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "firefox");
 		try {
