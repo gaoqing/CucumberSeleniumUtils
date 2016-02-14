@@ -7,11 +7,11 @@ import cucumber.api.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		glue={"classpath:qa.stepdef"},
+		glue={"classpath:qa"},
 		plugin={"pretty", "html:target/cucumber"},
 		dryRun=false,
 		features={
-				"/CucumberSeleniumUtils/resources/features/test.feature",
+				"classpath:features/test.feature",
 //				"classpath:feature2"		
 		})
 

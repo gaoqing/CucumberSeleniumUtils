@@ -13,17 +13,15 @@ public class PageObject {
 	public WebDriver driver;
 	public PageObject pageObj;
 	
-	@FindBy(css=".btn.primary")
-	public WebElement submitButton;
+	@FindBy(css=".site-search label input")
+	public WebElement searchBox;
 	
-	@FindBy(css=".btn.secondary")
-	public WebElement cancelButton;
+	@FindBy(css="div[class=\"sort-bar\"] >h3")
+	public WebElement resultInfo;
+
 	
-	@FindBy(css="span[name=\"userName\"]")
-	public WebElement userName;
-	
-	public String getUserName() {
-		return SeleniumCommon.waitUntilVisibleThenGetText(driver, userName);	
+	public String getResultInfo() {
+		return SeleniumCommon.waitUntilVisibleThenGetText(driver, resultInfo);	
 	}
 	
 	public PageObject(WebDriver driver) {

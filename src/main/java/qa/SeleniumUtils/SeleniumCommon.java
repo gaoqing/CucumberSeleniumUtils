@@ -19,14 +19,14 @@ public class SeleniumCommon {
 		}
 	}
 
-	public static void waitUntilClickableThenClick(WebDriver driver, WebElement element) {
+	public static WebElement waitUntilClickableThenClick(WebDriver driver, WebElement element) {
 		WebElement webElement=null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
 				webElement.getText(); //Use getText method to test if such element is stale or not
 				webElement.click();
-				return;
+				return webElement;
 			} catch (Throwable t) {
 				if(webElement==null) break;
 				System.out.println("Failed in attemption No. " + i);

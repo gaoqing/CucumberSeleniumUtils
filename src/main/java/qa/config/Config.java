@@ -2,7 +2,7 @@ package qa.config;
 
 
 public class Config {
-	public static String appUrl="www.google.com";
+	public static String appUrl="https://github.com/";
 	public static String runWithBrowser="chrome";
 	
 	public static String localChromePath ="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";

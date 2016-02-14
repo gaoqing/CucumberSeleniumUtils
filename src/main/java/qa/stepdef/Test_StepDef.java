@@ -1,10 +1,12 @@
 package qa.stepdef;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import junit.framework.Assert;
 import qa.SeleniumUtils.InstanceHelper;
 import qa.config.Config;
 import qa.pages.PageObject;
@@ -33,8 +35,11 @@ public class Test_StepDef {
 	public void user_can_see_his_name_in_the_top_right_corner(){
 		WebDriver driver = driveUtils.getDriver();
 	
-		String name = SeleniumCommon.waitUntilVisibleThenGetText(driver, pageObj.userName);
-		Assert.assertEquals(name, "Mike");
+		WebElement e=SeleniumCommon.waitUntilClickableThenClick(driver, pageObj.searchBox);
+		e.sendKeys("cucumber");
+		e.sendKeys(Keys.ENTER);
+		SeleniumCommon.sleepInHalfSec(4);
+		Assert.assertTrue(pageObj.getResultInfo().startsWith("We’ve found"));
 		Reporter.takeScreenShot();
 	}
 }

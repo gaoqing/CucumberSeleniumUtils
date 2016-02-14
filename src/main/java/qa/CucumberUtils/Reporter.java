@@ -3,6 +3,7 @@ package qa.CucumberUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+
 import cucumber.api.Scenario;
 
 public class Reporter {

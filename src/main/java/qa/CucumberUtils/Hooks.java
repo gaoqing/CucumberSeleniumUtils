@@ -1,9 +1,9 @@
 package qa.CucumberUtils;
 
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -38,8 +38,7 @@ public class Hooks {
 	public void setUp(Scenario s) {
 		scenario = s; 
 		System.out.println("This setUp hook is called by Cukes automatically"
-				+ " to init scenario instance");
-		
+				+ " to init scenario instance");	
 	}
 	
 	/* @Before hook will be called by every scenario, addShutdownHook() method only call
@@ -55,8 +54,7 @@ public class Hooks {
 					if(driver!=null) driver.quit();
 				}
 			});
-			System.out.println("Here can write code for before-all hook"
-					+ "(actually before the first scenario)");
+			// Here can write code for before-all hook(actually before the first scenario)
 			whenFirstScenario = false;
 		}
 	}
