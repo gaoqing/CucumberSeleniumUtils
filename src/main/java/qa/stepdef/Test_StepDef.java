@@ -20,7 +20,6 @@ public class Test_StepDef {
 	public Test_StepDef(DriverUtils driveUtils, PageObject pageObj) {
 		this.pageObj = pageObj;
 		this.driveUtils = driveUtils;
-	
 	}
 	
 	@Given("^User can log into the application as expected$")

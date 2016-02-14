@@ -4,8 +4,6 @@ package qa.CucumberUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
-import bsh.commands.dir;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -26,10 +24,10 @@ public class Hooks {
      * step definition related java class and class annotated by cucumber hooks, 
      * say current class for example*/
 
-	/* The java class annotated by cucumber hook annotation can be automatically instaniated by 
+	/* The java class annotated by cucumber hook annotation can be automatically instantiated by 
 	 * dependency DI Picocontainor, as long as it has no-arguments constructor or have arguments that 
-	 * also can be instaniated by DI Picocontainor.
-	 * In below constructor, the argument object DriverUtils can be instaniated by that DI as well
+	 * also can be instantiated by DI Picocontainor.
+	 * In below constructor, the argument object DriverUtils can be instantiated by that DI as well
 	 * */
 	public Hooks(DriverUtils driverUtils) {
 		driver = driverUtils.getDriver();
@@ -39,7 +37,8 @@ public class Hooks {
 	@Before
 	public void setUp(Scenario s) {
 		scenario = s; 
-		System.out.println("This setUp hook has been called by Cukes automatically to init scenario instance");
+		System.out.println("This setUp hook is called by Cukes automatically"
+				+ " to init scenario instance");
 		
 	}
 	
@@ -56,7 +55,8 @@ public class Hooks {
 					if(driver!=null) driver.quit();
 				}
 			});
-			System.out.println("Here can write code for before-all hook(before all scenarios)");
+			System.out.println("Here can write code for before-all hook"
+					+ "(actually before the first scenario)");
 			whenFirstScenario = false;
 		}
 	}
