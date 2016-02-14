@@ -1,6 +1,5 @@
 package qa.SeleniumUtils;
 
-import qa.CucumberUtils.ReporterHooks;
 import qa.config.*;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -23,46 +22,52 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 public class DriverUtils {
 	private WebDriver driver;
 	private static WebDriver staticDriver;
-	
+
 	public WebDriver getDriver() {
-		if(!Config.shareBrowserSession){
+		if (!Config.shareBrowserSession) {
 			return getInstanceDriver();
-		}else {
+		} else {
 			return getStaticDriver();
-		}		
+		}
 	}
-	
+
 	public WebDriver getInstanceDriver() {
 		if (Config.runInVenue.equalsIgnoreCase("local")) {
 			switch (Config.runWithBrowser) {
 			case "firefox":
-				if(driver ==null) driver = getLocalFirefoxDriver();
+				if (driver == null)
+					driver = getLocalFirefoxDriver();
 				break;
 			case "ie":
-				if(driver ==null) driver = getLocalIEDriver();
-				break; 
+				if (driver == null)
+					driver = getLocalIEDriver();
+				break;
 			case "chrome":
 			default:
-				if(driver ==null) driver = getLocalChromeDriver();
+				if (driver == null)
+					driver = getLocalChromeDriver();
 				break;
 			}
 		} else if (Config.runInVenue.equalsIgnoreCase("remote")) {
 			switch (Config.runWithBrowser) {
 			case "firefox":
-				if(driver ==null) driver = getRemoteFirefoxDriver();
+				if (driver == null)
+					driver = getRemoteFirefoxDriver();
 				break;
 			case "ie":
-				if(driver ==null) driver = getRemoteIEDriver();
-				break; 
+				if (driver == null)
+					driver = getRemoteIEDriver();
+				break;
 			case "chrome":
 			default:
-				if(driver ==null) driver = getRemoteChromeDriver();
+				if (driver == null)
+					driver = getRemoteChromeDriver();
 				break;
 			}
 		} else {
 			new Throwable("This driver have not been supported yet");
 		}
-		
+
 		return driver;
 	}
 
@@ -70,36 +75,42 @@ public class DriverUtils {
 		if (Config.runInVenue.equalsIgnoreCase("local")) {
 			switch (Config.runWithBrowser) {
 			case "firefox":
-				if(staticDriver ==null) staticDriver = getLocalFirefoxDriver();
+				if (staticDriver == null)
+					staticDriver = getLocalFirefoxDriver();
 				break;
 			case "ie":
-				if(staticDriver ==null) staticDriver = getLocalIEDriver();
-				break; 
+				if (staticDriver == null)
+					staticDriver = getLocalIEDriver();
+				break;
 			case "chrome":
 			default:
-				if(staticDriver ==null) staticDriver = getLocalChromeDriver();
+				if (staticDriver == null)
+					staticDriver = getLocalChromeDriver();
 				break;
 			}
 		} else if (Config.runInVenue.equalsIgnoreCase("remote")) {
 			switch (Config.runWithBrowser) {
 			case "firefox":
-				if(staticDriver ==null) staticDriver = getRemoteFirefoxDriver();
+				if (staticDriver == null)
+					staticDriver = getRemoteFirefoxDriver();
 				break;
 			case "ie":
-				if(staticDriver ==null) staticDriver = getRemoteIEDriver();
-				break; 
+				if (staticDriver == null)
+					staticDriver = getRemoteIEDriver();
+				break;
 			case "chrome":
 			default:
-				if(staticDriver ==null) staticDriver = getRemoteChromeDriver();
+				if (staticDriver == null)
+					staticDriver = getRemoteChromeDriver();
 				break;
 			}
 		} else {
 			new Throwable("This driver have not been supported yet");
 		}
-		
+
 		return staticDriver;
 	}
-	
+
 	public WebDriver getLocalChromeDriver() {
 		WebDriver driver = null;
 		ChromeOptions option = new ChromeOptions();
@@ -125,10 +136,10 @@ public class DriverUtils {
 				.build();
 		DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "internet explorer");
-		driver = new InternetExplorerDriver((InternetExplorerDriverService) service,cap);
+		driver = new InternetExplorerDriver((InternetExplorerDriverService) service, cap);
 		return driver;
 	}
-	
+
 	public WebDriver getLocalFirefoxDriver() {
 		WebDriver driver = null;
 		FirefoxBinary firefoxBinary = new FirefoxBinary(new File(Config.localFirefoxPath));
@@ -136,11 +147,11 @@ public class DriverUtils {
 
 		DesiredCapabilities cap = DesiredCapabilities.firefox();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "firefox");
-		driver = new FirefoxDriver(firefoxBinary,firefoxProfile,cap);
-		
+		driver = new FirefoxDriver(firefoxBinary, firefoxProfile, cap);
+
 		return driver;
 	}
-	
+
 	public WebDriver getRemoteChromeDriver() {
 		WebDriver driver = null;
 		ChromeOptions option = new ChromeOptions();
@@ -149,33 +160,33 @@ public class DriverUtils {
 		DesiredCapabilities cap = DesiredCapabilities.chrome();
 		cap.setCapability(ChromeOptions.CAPABILITY, option);
 		try {
-			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub),cap);
+			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub), cap);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return driver;
 	}
-	
+
 	public WebDriver getRemoteIEDriver() {
 		WebDriver driver = null;
 		DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "internet explorer");
 		try {
-			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub),cap);
+			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub), cap);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return driver;
 	}
-	
+
 	public WebDriver getRemoteFirefoxDriver() {
 		WebDriver driver = null;
 		DesiredCapabilities cap = DesiredCapabilities.firefox();
 		cap.setCapability(CapabilityType.BROWSER_NAME, "firefox");
 		try {
-			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub),cap);
+			driver = new RemoteWebDriver(new URL(Config.remoteSeleniumServerHub), cap);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

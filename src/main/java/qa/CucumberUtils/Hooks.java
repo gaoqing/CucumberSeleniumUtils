@@ -12,17 +12,16 @@ import cucumber.api.java.Before;
 import qa.SeleniumUtils.DriverUtils;
 import qa.config.Config;
 
-public class ReporterHooks {
+public class Hooks {
 
 	/*Have to use static here to keep the value being assigned to this field
 	when calling constructor for driver and automatically calling setUp to get scenario instance
 	*/
 	
-	static private Scenario scenario;
-	static private WebDriver driver;
-	private static boolean dunit = false;
+	private static Scenario scenario;
+	private static WebDriver driver;
+	private static boolean whenFirstScenario = true;
 	
-    
 	/*DI Picocontainor will be responsible for automatically creating instance for 
      * step definition related java class and class annotated by cucumber hooks, 
      * say current class for example*/
@@ -30,42 +29,39 @@ public class ReporterHooks {
 	/* The java class annotated by cucumber hook annotation can be automatically instaniated by 
 	 * dependency DI Picocontainor, as long as it has no-arguments constructor or have arguments that 
 	 * also can be instaniated by DI Picocontainor.
-	 * In below constructor, the argument object DriverUtils can be instaniated by that DI as well*/
-	public ReporterHooks(DriverUtils driverUtils) {
+	 * In below constructor, the argument object DriverUtils can be instaniated by that DI as well
+	 * */
+	public Hooks(DriverUtils driverUtils) {
 		driver = driverUtils.getDriver();
 	}
-	
-	public void takeScreenShot() {
-		byte[] screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-		scenario.embed(screen, "image/png");
-	}
 
-	
-	public void writeTextToReport(String text) {
-		scenario.write(text);
-	}
 
 	@Before
 	public void setUp(Scenario s) {
 		scenario = s; 
 		System.out.println("This setUp hook has been called by Cukes automatically to init scenario instance");
+		
 	}
 	
+	/* @Before hook will be called by every scenario, addShutdownHook() method only call
+	 * Before the first scenario and then flag whenFirstScenario set false.
+	 * The new Thread will be called automatically by Runtime before current runtime shutdown.
+	 * */
 	@Before
 	public void allHooks(){
-		if(!dunit){
+		if(whenFirstScenario){
 			Runtime.getRuntime().addShutdownHook(new Thread(){
 				public void run() {
-					System.out.println("This is after all hook");
+					System.out.println("This after-all hook executed right before JVM shutdown");
 					if(driver!=null) driver.quit();
 				}
 			});
-			System.out.println("This is before all");
-			dunit = true;
+			System.out.println("Here can write code for before-all hook(before all scenarios)");
+			whenFirstScenario = false;
 		}
 	}
 
-	/*Can Apply tab to feature/scenario file, like After("@Tag1, @Tag2")  */
+	/* Can Apply tab to feature/scenario file, like After("@Tag1, @Tag2")  */
 	@After
 	public void tearDown() {
 		if (scenario.isFailed()) {
@@ -75,6 +71,15 @@ public class ReporterHooks {
 		if(!Config.shareBrowserSession){
 			driver.quit();
 		}
+	}
+	
+	public static Scenario getScenario() {
+		return scenario;
+	}
+	
+	public static WebDriver getDriver() {
+		return driver;
+		
 	}
 
 }

@@ -9,6 +9,7 @@ import qa.SeleniumUtils.InstanceHelper;
 import qa.config.Config;
 import qa.pages.PageObject;
 import qa.config.*;
+import qa.CucumberUtils.Reporter;
 import qa.SeleniumUtils.*;
 
 public class Test_StepDef {
@@ -19,14 +20,14 @@ public class Test_StepDef {
 	public Test_StepDef(DriverUtils driveUtils, PageObject pageObj) {
 		this.pageObj = pageObj;
 		this.driveUtils = driveUtils;
-		
+	
 	}
 	
 	@Given("^User can log into the application as expected$")
 	public void user_can_log_into_the_application_as_expected(){
 		WebDriver driver = driveUtils.getDriver();
 		driver.get(Config.appUrl);
-	
+		Reporter.writeTextToReport("Getting to site: "+ Config.appUrl);
 	}
 
 	@Then("^User can see his name in the top right corner$")
@@ -35,7 +36,7 @@ public class Test_StepDef {
 	
 		String name = SeleniumCommon.waitUntilVisibleThenGetText(driver, pageObj.userName);
 		Assert.assertEquals(name, "Mike");
-		
+		Reporter.takeScreenShot();
 	}
 }
 
