@@ -1,5 +1,5 @@
-Feature: User can login the application
+Feature: User can load github page and search repository
 
-Scenario: User can login the application
-When User can log into the application as expected
-Then User can see his name in the top right corner
+Scenario: User can load github page and search repository
+When User can open github site and do a search 
+Then search result can be returned

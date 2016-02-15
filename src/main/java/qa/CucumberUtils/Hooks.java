@@ -8,6 +8,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import qa.SeleniumUtils.DriverUtils;
+import qa.SeleniumUtils.InstanceHelper;
 import qa.config.Config;
 
 public class Hooks {
@@ -33,6 +34,9 @@ public class Hooks {
 		driver = driverUtils.getDriver();
 	}
 
+//	public Hooks(InstanceHelper helper) {
+//		driver = helper.getTheDriver();
+//	}
 
 	@Before
 	public void setUp(Scenario s) {

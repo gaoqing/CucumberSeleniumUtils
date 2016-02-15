@@ -24,14 +24,14 @@ public class Test_StepDef {
 		this.driveUtils = driveUtils;
 	}
 	
-	@Given("^User can log into the application as expected$")
+	@Given("^User can open github site and do a search$")
 	public void user_can_log_into_the_application_as_expected(){
 		WebDriver driver = driveUtils.getDriver();
 		driver.get(Config.appUrl);
 		Reporter.writeTextToReport("Getting to site: "+ Config.appUrl);
 	}
 
-	@Then("^User can see his name in the top right corner$")
+	@Then("^search result can be returned$")
 	public void user_can_see_his_name_in_the_top_right_corner(){
 		WebDriver driver = driveUtils.getDriver();
 	
@@ -46,26 +46,29 @@ public class Test_StepDef {
 
 //public class Test_StepDef {
 //	InstanceHelper helper;
-//	
+//
 //	public Test_StepDef(InstanceHelper helper) {
 //		this.helper = helper;
 //	}
-//	
-//	@Given("^User can log into the application as expected$")
-//	public void user_can_log_into_the_application_as_expected(){
+//
+//	@Given("^User can open github site and do a search$")
+//	public void user_can_log_into_the_application_as_expected() {
 //		WebDriver driver = helper.getTheDriver();
 //		driver.get(Config.appUrl);
-//	
+//
+//		Reporter.writeTextToReport("Getting to site: " + Config.appUrl);
+//
 //	}
 //
-//	@Then("^User can see his name in the top right corner$")
-//	public void user_can_see_his_name_in_the_top_right_corner(){
+//	@Then("^search result can be returned$")
+//	public void user_can_see_his_name_in_the_top_right_corner() {
 //		WebDriver driver = helper.getTheDriver();
 //		PageObject pageObj = helper.getPageObj(driver);
-//		
-//		String name = SeleniumCommon.waitUntilVisibleThenGetText(driver, pageObj.userName);
-//		Assert.assertEquals(name, "Mike");
-//		
+//		WebElement e = SeleniumCommon.waitUntilClickableThenClick(driver, pageObj.searchBox);
+//		e.sendKeys("cucumber");
+//		e.sendKeys(Keys.ENTER);
+//		SeleniumCommon.sleepInHalfSec(4);
+//		Assert.assertTrue(pageObj.getResultInfo().startsWith("We’ve found"));
+//		Reporter.takeScreenShot();
 //	}
-//
 //}
