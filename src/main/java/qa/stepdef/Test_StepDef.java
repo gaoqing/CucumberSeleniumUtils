@@ -28,13 +28,12 @@ public class Test_StepDef {
 	public void user_can_log_into_the_application_as_expected(){
 		WebDriver driver = driveUtils.getDriver();
 		driver.get(Config.appUrl);
-		Reporter.writeTextToReport("Getting to site: "+ Config.appUrl);
+		Reporter.writeText("Getting to site: "+ Config.appUrl);
 	}
 
 	@Then("^search result can be returned$")
 	public void user_can_see_his_name_in_the_top_right_corner(){
 		WebDriver driver = driveUtils.getDriver();
-	
 		WebElement e=SeleniumCommon.waitUntilClickableThenClick(driver, pageObj.searchBox);
 		e.sendKeys("cucumber");
 		e.sendKeys(Keys.ENTER);

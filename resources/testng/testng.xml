@@ -1,12 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Cukes Suite" verbose="1">
-	<test name="TestCuke">
-<!-- 		<classes> -->
-<!-- 			<class name="qa.CucumberUtils.CucumberRunner.java"> -->
-<!-- 			</class> -->
-<!-- 		</classes> -->
-	<packages>
-		<package name="qa.CucumberUtils" />
-	</packages>
-	</test>
+ 
+<suite name="Cuke Sample" verbose="1" >
+  <test name="Cukes"   >
+    <packages>
+      <package name="qa.CucumberUtils" />
+   </packages>
+ </test>
 </suite>

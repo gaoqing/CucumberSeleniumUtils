@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -98,8 +98,8 @@
 		<!-- /* The java class annotated by cucumber hook annotation can be automatically 
 			instantiated by -->
 		<!-- * dependency DI Picocontainor, as long as it has no-arguments constructor 
-			or have arguments that -->
-		<!-- * also can be instantiated by DI Picocontainor. -->
+			or have class arguments that -->
+		<!-- * also can automatically be instantiated by DI Picocontainor. -->
 		<!-- * In ReporterHook.java constructor, the argument DriverUtils can be 
 			instantiated by that DI as well*/ -->
 
@@ -109,7 +109,6 @@
 			<version>1.2.4</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.picocontainer</groupId>
 			<artifactId>picocontainer</artifactId>
@@ -126,7 +125,7 @@
 				<version>2.19.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>/CucumberSeleniumUtils/resources/testng/testng.xml</suiteXmlFile>
+						<suiteXmlFile>resources/testng/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>

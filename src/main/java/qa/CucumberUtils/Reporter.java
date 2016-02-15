@@ -18,7 +18,7 @@ public class Reporter {
 		scenario.embed(screen, "image/png");
 	}
 	
-	public static void writeTextToReport(String text) {
+	public static void writeText(String text) {
 		scenario = Hooks.getScenario();
 		scenario.write(text);
 	}
