@@ -4,7 +4,7 @@ package qa.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import qa.pages.PageObject;
 
-public class InstanceHelper {
+public class ObjectHelper {
 	
 	WebDriver driver;
 	PageObject pageObj;

@@ -2,13 +2,16 @@ package qa.SeleniumUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import org.apache.regexp.recompile;
+import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.base.Function;
-
 
 public class SeleniumCommon {
 	public static void sleepInHalfSec(int halfSec) {
@@ -20,15 +23,17 @@ public class SeleniumCommon {
 	}
 
 	public static WebElement waitUntilClickableThenClick(WebDriver driver, WebElement element) {
-		WebElement webElement=null;
+		WebElement webElement = null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
-				webElement.getText(); //Use getText method to test if such element is stale or not
+				webElement.getText(); // Use getText method to test if such
+										// element is stale or not
 				webElement.click();
 				return webElement;
 			} catch (Throwable t) {
-				if(webElement==null) break;
+				if (webElement == null)
+					break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
@@ -38,14 +43,15 @@ public class SeleniumCommon {
 	}
 
 	public static String waitUntilVisibleThenGetText(WebDriver driver, WebElement element) {
-		WebElement webElement=null;
+		WebElement webElement = null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(element));
 				String text = webElement.getText();
 				return text;
 			} catch (Throwable t) {
-				if(webElement==null) break;
+				if (webElement == null)
+					break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
@@ -55,7 +61,7 @@ public class SeleniumCommon {
 	}
 
 	public static void waitUntilClickableThenSentKeys(WebDriver driver, WebElement element, String textToSend) {
-		WebElement webElement=null;
+		WebElement webElement = null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
@@ -63,7 +69,8 @@ public class SeleniumCommon {
 				webElement.sendKeys(textToSend);
 				return;
 			} catch (Throwable t) {
-				if(webElement==null) break;
+				if (webElement == null)
+					break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
@@ -73,14 +80,16 @@ public class SeleniumCommon {
 	}
 
 	public static WebElement waitUtilVisible(WebDriver driver, WebElement element) {
-		WebElement webElement=null;
+		WebElement webElement = null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(element));
-				webElement.getText(); // Use getText method to test if such element is stale or not
+				webElement.getText(); // Use getText method to test if such
+										// element is stale or not
 				return webElement;
 			} catch (Throwable t) {
-				if(webElement==null) break;
+				if (webElement == null)
+					break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
@@ -90,14 +99,16 @@ public class SeleniumCommon {
 	}
 
 	public static WebElement waitUtilClickable(WebDriver driver, WebElement element) {
-		WebElement webElement=null;
+		WebElement webElement = null;
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
-				webElement.getText(); // Use getText method to test if such element is stale or not
+				webElement.getText(); // Use getText method to test if such
+										// element is stale or not
 				return webElement;
 			} catch (Throwable t) {
-				if(webElement==null) break;
+				if (webElement == null)
+					break;
 				System.out.println("Failed in attemption No. " + i);
 				sleepInHalfSec(i * 2);
 				continue;
@@ -106,7 +117,8 @@ public class SeleniumCommon {
 		throw new RuntimeException("Element state is unknown or cannot find such element");
 	}
 
-	public static String waitUntilOneInListVisibleThenGetText(WebDriver driver, List<WebElement> elements, int... targetIndex) {
+	public static String waitUntilOneInListVisibleThenGetText(WebDriver driver, List<WebElement> elements,
+			int... targetIndex) {
 		WebElement targetElement = null;
 		int size = elements.size();
 		if (targetIndex.length == 0) {
@@ -121,7 +133,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(targetIndex[0]-1);  //Parameter index counting from 1
+			targetElement = elements.get(targetIndex[0] - 1); // Parameter index counting from 1													
 		}
 
 		for (int i = 0; i < 6; i++) {
@@ -155,7 +167,7 @@ public class SeleniumCommon {
 				}
 			}
 		} else {
-			targetElement = elements.get(targetIndex[0]-1);
+			targetElement = elements.get(targetIndex[0] - 1);
 		}
 
 		for (int i = 0; i < 6; i++) {
@@ -173,30 +185,79 @@ public class SeleniumCommon {
 		throw new RuntimeException("Have tried 5 times, but failed as element state is unknown");
 	}
 
-	
 	public boolean waitAfterPageLoad(WebDriver driver) {
 		new WebDriverWait(driver, 30).until(isPageLoaded());
 		return true;
-		
-	}
-	
-	
-	public static Function<WebDriver, Boolean> isPageLoaded(){
-		return new Function<WebDriver, Boolean>() {
 
+	}
+
+	public boolean waitElementValueToChange(WebDriver driver, WebElement element, String valuesToDisapper) {
+		boolean result;
+		for (int i = 1; i <= 6; i++) {
+			try {
+
+				ExpectedCondition<Boolean> condition = ExpectedConditions
+						.not(ExpectedConditions.textToBePresentInElement(element, valuesToDisapper));
+				result=new WebDriverWait(driver, 30).until(condition);
+				return result;
+			} catch (Throwable t) {
+				System.out.println("Failed in attemption No. " + i);
+				sleepInHalfSec(i * 2);
+				continue;
+			}
+		}
+		throw new RuntimeException("Timeouted while waiting element value to changes");
+	}
+
+	public boolean waitUtilAttrValueEqualsExpectedValue(WebDriver driver, WebElement element, String attrNameToWait,
+			String expectedAttrValue) {
+		boolean result;
+		for (int i = 1; i <= 6; i++) {
+			try {
+				result = new WebDriverWait(driver, 30)
+						.until(waitAttributeValueCondition(driver, element, attrNameToWait, expectedAttrValue));
+				return result;
+			} catch (Throwable t) {
+				System.out.println("Failed in attemption No. " + i);
+				sleepInHalfSec(i * 2);
+				continue;
+			}
+		}
+		throw new RuntimeException("Attribute of the waiting element does't equal to expected value before timeouted");
+	}
+
+	public static Function<WebDriver, Boolean> isPageLoaded() {
+		return new Function<WebDriver, Boolean>() {
 			public Boolean apply(WebDriver input) {
-				return ((JavascriptExecutor)input)
-						.executeScript("return document.readyState").equals("complete");
+				return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete");
 			}
 		};
 	}
-	
+
+	public static ExpectedCondition<Boolean> waitAttributeValueCondition(WebDriver driver, final WebElement element,
+			final String attrNameToWait, final String expectedAttrValue) {
+
+		return new ExpectedCondition<Boolean>() {
+			String actualAttrValue = null;
+
+			@Override
+			public Boolean apply(WebDriver input) {
+				actualAttrValue = element.getAttribute(attrNameToWait);
+				if (actualAttrValue == null && expectedAttrValue == null)
+					return true;
+				if (actualAttrValue != null && expectedAttrValue != null && attrNameToWait.equals(expectedAttrValue))
+					return true;
+				return false;
+			}
+		};
+	}
+
 	public static Object tryCatchWraper4NonPrimitive(Object classInstance, String method, Object... paraValueList) {
 		Class<?> clazz = classInstance.getClass();
 		Method methodToInvoke = null;
 		int length = paraValueList.length;
 		Class<?>[] parameterType = new Class<?>[length];
-		
+
 		try {
 			if (length > 0) {
 				for (int i = 0; i < length; i++) {
