@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 
 public class SeleniumCommon {
 	public static void sleepInHalfSec(int halfSec) {
@@ -27,6 +28,7 @@ public class SeleniumCommon {
 		for (int i = 1; i <= 6; i++) {
 			try {
 				webElement = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(element));
+				Thread.sleep(100);
 				webElement.getText(); // Use getText method to test if such
 										// element is stale or not
 				webElement.click();
@@ -228,8 +230,27 @@ public class SeleniumCommon {
 
 	public static Function<WebDriver, Boolean> isPageLoaded() {
 		return new Function<WebDriver, Boolean>() {
-			public Boolean apply(WebDriver input) {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+			}
+		};
+	}
+	
+	public static Predicate<WebDriver> isPageLoaded2() {
+		return new Predicate<WebDriver>() {
+			@Override
+			public boolean apply(WebDriver input) {
 				return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete");
+			}
+		};
+	}
+	
+	public static ExpectedCondition<Boolean> expectedPageLoaded() {
+		return new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
 			}
 		};
 	}
