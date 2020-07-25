@@ -26,4 +26,4 @@ After running, a pretty report will be auto generated under directory(target/sur
 
 
 ## License
-[MIT](https://github.com/gaoqing/CucumberSeleniumUtils/master/LICENSE)
+[MIT](https://github.com/gaoqing/CucumberSeleniumUtils/blob/master/LICENSE)
