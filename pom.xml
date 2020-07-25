@@ -156,13 +156,12 @@
 						</property>
 						<property>
 							<name>listener</name>
-							<value>org.uncommons.reportng.HTMLReporter,
-								org.uncommons.reportng.JUnitXMLReporter</value>
+							<value>org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter</value>
 						</property>
 					</properties>
 					<workingDirectory>target/</workingDirectory>
 					<suiteXmlFiles>
-						<suiteXmlFile>resources/testng/testng.xml</suiteXmlFile>
+						<suiteXmlFile>src/test/resources/testng/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>

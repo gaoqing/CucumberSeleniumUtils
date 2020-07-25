@@ -3,7 +3,7 @@
 <suite name="Cuke Sample" verbose="1" >
   <test name="Cukes"   >
     <packages>
-      <package name="qa.CucumberUtils" />
+      <package name="qa" />
    </packages>
  </test>
 </suite>
