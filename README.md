@@ -2,10 +2,11 @@
 
 ## Selenium/Cucumber Test Utils
 
-This `CucumberSeleniumUtils` is pretty much a very simple toolkit with basic utils classes for starting up a selenium&cucumber test environment
-for demonstration and reference purpose, as a starting point for beginner to start up and then evolve. 
+This `CucumberSeleniumUtils` is pretty much a very simple toolkit with basic utils classes for starting up a `selenium` & `cucumber` test environment
+for demonstration and reference purpose. As a starting point for beginner to start up and then continue evolving. 
 
-This includes an end 2 end wed GUI test demonstration by using [selenium](https://www.selenium.dev/) webdriver to drive a web browser to simulate user behaviours(like clicking/inputting/navigating etc).
+This includes an end 2 end web GUI test demo by using [selenium](https://www.selenium.dev/) webdriver to drive a web browser to simulate user behaviours(like clicking/inputting/navigating etc).
+
 The test case itself is managed and arranged in [cucumber](https://cucumber.io/) feature files, which is quite a BDD test framework(Given/When/Then phrases)
 
 
